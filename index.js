@@ -9,10 +9,20 @@ const readline = require('readline').createInterface({
 
 setUp();
 
-readline.question('What action do you want to generate? ', action => {
-  generateClassForAction(action).then((result) => {
-    console.log(result);
-    fs.writeFileSync(`./Outputs/${action}.js`, result);
-    readline.close();
-  });
-});
+let action = process.argv[2];
+
+if (action) {
+    generateClassForAction(action).then((result) => {
+        console.log(result);
+        fs.writeFileSync(`./Outputs/${action}.js`, result);
+        readline.close();
+    });
+} else {
+    readline.question('What action do you want to generate? ', action => {
+        generateClassForAction(action).then((result) => {
+            console.log(result);
+            fs.writeFileSync(`./Outputs/${action}.js`, result);
+            readline.close();
+        });
+    });
+}
